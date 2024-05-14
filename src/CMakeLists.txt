@@ -1,7 +1,10 @@
 add_subdirectory(read_files)
-#target_eigen_interface
-#target_link_libraries(target_lib_file PUBLIC 
-#    Eigen3::Eigen
- #   target_interface_nlohmann
- #   target_lib_data_structure
-#)
+add_subdirectory(mesh_lattice)
+target_link_libraries(target_lib_read_files PUBLIC 
+    Eigen3::Eigen
+)
+target_link_libraries(target_lib_mesh PUBLIC 
+    target_lib_read_files
+    target_interface_gmsh
+    target_interface_vtk
+)
