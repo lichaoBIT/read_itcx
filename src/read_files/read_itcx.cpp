@@ -59,3 +59,29 @@ void ItcxDataReader::read_itcx_data(const string& file) {
 		else { ; }
 	}
 }
+
+void write_stl_file(const string& path, const std::vector<Vector3d> &nodes,
+	const std::vector<Vector3i>& triangles) {
+	std::ofstream ofs(path, std::ios::ate);
+	ofs << "solid poly1" << std::endl;
+	for (auto& it : triangles) {
+		auto& v1 = nodes[it(0)];
+		auto& v2 = nodes[it(1)];
+		auto& v3 = nodes[it(2)];
+		Vector3d AB = v2 - v1;
+		Vector3d AC = v3 - v1;
+		auto n = AB.cross(AC);
+		auto norm = n.norm();
+		if (norm == 0)continue;
+		n = n / norm;
+		ofs << "  facet normal " << n(0) << " " << n(1) << " " << n(2) << std::endl;
+		ofs << "    outer loop" << std::endl;
+		ofs << "      vertex " << v1(0) << " " << v1(1) << " " << v1(2) << std::endl;
+		ofs << "      vertex " << v2(0) << " " << v2(1) << " " << v2(2) << std::endl;
+		ofs << "      vertex " << v3(0) << " " << v3(1) << " " << v3(2) << std::endl;
+		ofs << "    endloop" << std::endl;
+		ofs << "  endfacet" << std::endl;
+	}
+	ofs << "endsolid";
+	ofs.close();
+}
