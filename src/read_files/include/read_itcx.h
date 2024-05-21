@@ -13,6 +13,7 @@
 using string = std::string;
 using Vector3d = Eigen::Vector3d;
 using Vector3i = Eigen::Vector3i;
+using Matrix3d = Eigen::Matrix3d;
 
 class ItcxDataReader {
 public:
